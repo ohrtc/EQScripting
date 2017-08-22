@@ -1,0 +1,184 @@
+[Mon Aug 21 17:35:51 2017] Welcome to EverQuest!
+[Mon Aug 21 17:35:51 2017] You have entered Highpass Hold.
+[Mon Aug 21 17:35:51 2017] MESSAGE OF THE DAY: Welcome to the Project 1999 Classic EverQuest server!  Please visit our forums for more information, and to report any bugs, at www.project1999.com
+[Mon Aug 21 17:35:51 2017] GUILD MOTD: Sanguiexterus - Greetings VOIDers Were in the planning phase for our guild run to to Velious to get port teeth for everybody. Have a think about when would work for you and let us know so we can pick a date and time for maximum attendance. NAEAD: can you skype me when you get a moment (richard.chantry) so we can coordinate. Cheers folks. Camp calm and carry on!
+[Mon Aug 21 17:35:54 2017] Ricoexo says out of character, 'Doing 96&PCT; rez for donation,provide port,tell ur friends.Check my stream to see where i am.TwitchTV stifabR'
+[Mon Aug 21 17:36:29 2017] You are out of food and drink.
+[Mon Aug 21 17:36:40 2017] You begin casting Summon Food.
+[Mon Aug 21 17:36:49 2017] You begin casting Summon Food.
+[Mon Aug 21 17:36:53 2017] You have become better at Conjuration! (29)
+[Mon Aug 21 17:36:55 2017] You begin casting Summon Drink.
+[Mon Aug 21 17:37:02 2017] You begin casting Summon Drink.
+[Mon Aug 21 17:37:11 2017] a guard judges you amiably -- what would you like your tombstone to say?
+[Mon Aug 21 17:37:22 2017] You begin casting Holy Armor.
+[Mon Aug 21 17:37:24 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:24 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:24 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:24 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:24 2017] You feel the favor of the gods upon you.
+[Mon Aug 21 17:37:24 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:25 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:25 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:25 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:25 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:25 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:26 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:27 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:27 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:27 2017] You begin casting Center.
+[Mon Aug 21 17:37:27 2017] You haven't recovered yet...
+[Mon Aug 21 17:37:31 2017] You feel magnanimous of spirit.
+[Mon Aug 21 17:37:33 2017] Jovan begins to cast a spell.
+[Mon Aug 21 17:37:43 2017] You no longer have a target.
+[Mon Aug 21 17:38:26 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:38:29 2017] an orc medic regains concentration and continues casting.
+[Mon Aug 21 17:38:33 2017] an orc medic says 'I'll teach you to interfere with me Aegaeon.'
+[Mon Aug 21 17:38:36 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:38:38 2017] an orc medic regains concentration and continues casting.
+[Mon Aug 21 17:38:39 2017] Aegaeon says, 'yea'
+[Mon Aug 21 17:38:39 2017] Dsturbed scores a critical hit! (27)
+[Mon Aug 21 17:38:39 2017] Dsturbed scores a critical hit! (44)
+[Mon Aug 21 17:38:41 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:38:42 2017] an orc medic's casting is interrupted!
+[Mon Aug 21 17:38:43 2017] an orc medic says 'You shall have all the Shralok Orcs on your tail for my death!'
+[Mon Aug 21 17:38:48 2017] You are low on food and drink.
+[Mon Aug 21 17:38:53 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:38:57 2017] an orc medic's casting is interrupted!
+[Mon Aug 21 17:38:59 2017] Dsturbed scores a critical hit! (37)
+[Mon Aug 21 17:39:01 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:39:03 2017] an orc medic regains concentration and continues casting.
+[Mon Aug 21 17:39:06 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:39:07 2017] an orc medic's casting is interrupted!
+[Mon Aug 21 17:39:09 2017] Aegaeon begins to cast a spell.
+[Mon Aug 21 17:39:10 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:39:12 2017] an orc medic regains concentration and continues casting.
+[Mon Aug 21 17:39:15 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:39:20 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:39:22 2017] an orc medic regains concentration and continues casting.
+[Mon Aug 21 17:39:28 2017] Dsturbed tries to slash an orc medic, but misses!
+[Mon Aug 21 17:39:29 2017] Leftears tries to pierce an orc medic, but misses!
+[Mon Aug 21 17:39:30 2017] Dsturbed slashes an orc medic for 18 points of damage.
+[Mon Aug 21 17:39:30 2017] Dsturbed slashes an orc medic for 22 points of damage.
+[Mon Aug 21 17:39:30 2017] an orc medic has been slain by Dsturbed!
+[Mon Aug 21 17:39:30 2017] an orc medic says 'You shall have all the Shralok Orcs on your tail for my death!'
+[Mon Aug 21 17:39:34 2017] You are low on food and drink.
+[Mon Aug 21 17:39:39 2017] an orc soldier says 'Filthy Barbarians like you must die!'
+[Mon Aug 21 17:39:40 2017] An orc soldier bashes Leftears for 2 points of damage.
+[Mon Aug 21 17:39:40 2017] An orc soldier tries to hit Leftears, but misses!
+[Mon Aug 21 17:39:43 2017] An orc soldier tries to hit Leftears, but misses!
+[Mon Aug 21 17:39:44 2017] Leftears pierces an orc soldier for 26 points of damage.
+[Mon Aug 21 17:39:44 2017] Leftears pierces an orc soldier for 19 points of damage.
+[Mon Aug 21 17:39:46 2017] Aegaeon invites you to join a group.
+[Mon Aug 21 17:39:46 2017] To join the group, click on the 'FOLLOW' option, or 'DISBAND' to cancel.
+[Mon Aug 21 17:39:46 2017] An orc soldier tries to hit Leftears, but misses!
+[Mon Aug 21 17:39:47 2017] Dsturbed slashes an orc soldier for 22 points of damage.
+[Mon Aug 21 17:39:47 2017] Dsturbed tries to slash an orc soldier, but misses!
+[Mon Aug 21 17:39:47 2017] Leftears pierces an orc soldier for 22 points of damage.
+[Mon Aug 21 17:39:47 2017] You say, 'just watching for logging purposes, carry on'
+[Mon Aug 21 17:39:48 2017] Aegaeon crushes an orc soldier for 36 points of damage.
+[Mon Aug 21 17:39:48 2017] Dsturbed slashes an orc soldier for 2 points of damage.
+[Mon Aug 21 17:39:48 2017] An orc soldier tries to bash Dsturbed, but misses!
+[Mon Aug 21 17:39:49 2017] Dsturbed slashes an orc soldier for 6 points of damage.
+[Mon Aug 21 17:39:49 2017] An orc soldier hits Dsturbed for 2 points of damage.
+[Mon Aug 21 17:39:50 2017] Leftears backstabs an orc soldier for 62 points of damage.
+[Mon Aug 21 17:39:50 2017] Aegaeon begins to cast a spell.
+[Mon Aug 21 17:39:50 2017] Leftears pierces an orc soldier for 22 points of damage.
+[Mon Aug 21 17:39:50 2017] Leftears pierces an orc soldier for 14 points of damage.
+[Mon Aug 21 17:39:50 2017] Aegaeon lets loose a mighty yaulp.
+[Mon Aug 21 17:39:51 2017] Dsturbed slashes an orc soldier for 21 points of damage.
+[Mon Aug 21 17:39:52 2017] An orc soldier hits Leftears for 8 points of damage.
+[Mon Aug 21 17:39:53 2017] Leftears pierces an orc soldier for 2 points of damage.
+[Mon Aug 21 17:39:54 2017] Leftears slashes an orc soldier for 12 points of damage.
+[Mon Aug 21 17:39:54 2017] Aegaeon crushes an orc soldier for 12 points of damage.
+[Mon Aug 21 17:39:54 2017] Aegaeon crushes an orc soldier for 60 points of damage.
+[Mon Aug 21 17:39:54 2017] an orc soldier has been slain by Aegaeon!
+[Mon Aug 21 17:39:54 2017] an orc soldier says 'You shall have all the Shralok Orcs on your tail for my death!'
+[Mon Aug 21 17:40:01 2017] Targeted (Player): Solicer
+[Mon Aug 21 17:40:01 2017] Right click on yourself to bring up your own inspect window. Use the /toggleinspect command to enable or disable right-click inspecting.
+[Mon Aug 21 17:40:03 2017] Targeted (Player): Leftears
+[Mon Aug 21 17:40:03 2017] Stand close to and right click on the Player to consider and inspect him. Use the /toggleinspect command to enable or disable right-click inspecting.
+[Mon Aug 21 17:40:04 2017] You begin casting Center.
+[Mon Aug 21 17:40:08 2017] Leftears is surrounded by a divine aura.
+[Mon Aug 21 17:40:10 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:11 2017] You begin casting Holy Armor.
+[Mon Aug 21 17:40:13 2017] Leftears feels the favor of the gods upon them.
+[Mon Aug 21 17:40:17 2017] Targeted (Player): Aegaeon
+[Mon Aug 21 17:40:17 2017] Stand close to and right click on the Player to consider and inspect him. Use the /toggleinspect command to enable or disable right-click inspecting.
+[Mon Aug 21 17:40:19 2017] You begin casting Center.
+[Mon Aug 21 17:40:20 2017] You are low on food and drink.
+[Mon Aug 21 17:40:23 2017] an orc warrior says 'It's Ogres like you who have ruined your own lands, You'll not ruin mine!'
+[Mon Aug 21 17:40:23 2017] Aegaeon is surrounded by a divine aura.
+[Mon Aug 21 17:40:23 2017] You have become better at Abjuration! (66)
+[Mon Aug 21 17:40:26 2017] Dsturbed slashes an orc warrior for 8 points of damage.
+[Mon Aug 21 17:40:26 2017] an orc warrior says 'I'll teach you to interfere with me Dsturbed.'
+[Mon Aug 21 17:40:27 2017] Dsturbed tries to bash an orc warrior, but misses!
+[Mon Aug 21 17:40:27 2017] You begin casting Holy Armor.
+[Mon Aug 21 17:40:27 2017] Aegaeon begins to cast a spell.
+[Mon Aug 21 17:40:28 2017] Dsturbed tries to slash an orc warrior, but misses!
+[Mon Aug 21 17:40:28 2017] An orc warrior hits Dsturbed for 13 points of damage.
+[Mon Aug 21 17:40:28 2017] Aegaeon lets loose a mighty yaulp.
+[Mon Aug 21 17:40:29 2017] Aegaeon tries to crush an orc warrior, but misses!
+[Mon Aug 21 17:40:29 2017] Dsturbed slashes an orc warrior for 26 points of damage.
+[Mon Aug 21 17:40:29 2017] Leftears tries to pierce an orc warrior, but misses!
+[Mon Aug 21 17:40:29 2017] Aegaeon feels the favor of the gods upon them.
+[Mon Aug 21 17:40:29 2017] You have become better at Abjuration! (67)
+[Mon Aug 21 17:40:30 2017] Dsturbed slashes an orc warrior for 25 points of damage.
+[Mon Aug 21 17:40:31 2017] An orc warrior tries to hit Dsturbed, but misses!
+[Mon Aug 21 17:40:32 2017] Dsturbed slashes an orc warrior for 10 points of damage.
+[Mon Aug 21 17:40:32 2017] Leftears pierces an orc warrior for 2 points of damage.
+[Mon Aug 21 17:40:32 2017] Aegaeon crushes an orc warrior for 9 points of damage.
+[Mon Aug 21 17:40:33 2017] An orc warrior tries to bash Aegaeon, but misses!
+[Mon Aug 21 17:40:33 2017] Leftears slashes an orc warrior for 4 points of damage.
+[Mon Aug 21 17:40:33 2017] Leftears pierces an orc warrior for 22 points of damage.
+[Mon Aug 21 17:40:33 2017] Dsturbed scores a critical hit! (57)
+[Mon Aug 21 17:40:33 2017] Dsturbed slashes an orc warrior for 57 points of damage.
+[Mon Aug 21 17:40:34 2017] An orc warrior has been injected with a chilling poison.
+[Mon Aug 21 17:40:34 2017] Dsturbed slashes an orc warrior for 30 points of damage.
+[Mon Aug 21 17:40:34 2017] Targeted (Player): Dsturbed
+[Mon Aug 21 17:40:34 2017] Stand close to and right click on the Player to consider and inspect him. Use the /toggleinspect command to enable or disable right-click inspecting.
+[Mon Aug 21 17:40:34 2017] An orc warrior tries to hit Dsturbed, but misses!
+[Mon Aug 21 17:40:35 2017] Leftears pierces an orc warrior for 15 points of damage.
+[Mon Aug 21 17:40:35 2017] Leftears pierces an orc warrior for 19 points of damage.
+[Mon Aug 21 17:40:35 2017] You begin casting Center.
+[Mon Aug 21 17:40:35 2017] Aegaeon tries to crush an orc warrior, but misses!
+[Mon Aug 21 17:40:35 2017] Dsturbed tries to slash an orc warrior, but misses!
+[Mon Aug 21 17:40:37 2017] Dsturbed bashes an orc warrior for 6 points of damage.
+[Mon Aug 21 17:40:37 2017] An orc warrior tries to hit Dsturbed, but misses!
+[Mon Aug 21 17:40:37 2017] Dsturbed tries to slash an orc warrior, but misses!
+[Mon Aug 21 17:40:37 2017] Dsturbed slashes an orc warrior for 32 points of damage.
+[Mon Aug 21 17:40:38 2017] Leftears pierces an orc warrior for 19 points of damage.
+[Mon Aug 21 17:40:38 2017] Leftears pierces an orc warrior for 18 points of damage.
+[Mon Aug 21 17:40:39 2017] Aegaeon tries to crush an orc warrior, but misses!
+[Mon Aug 21 17:40:39 2017] Your spell did not take hold.
+[Mon Aug 21 17:40:39 2017] Dsturbed slashes an orc warrior for 33 points of damage.
+[Mon Aug 21 17:40:39 2017] an orc warrior has been slain by Dsturbed!
+[Mon Aug 21 17:40:39 2017] Your faction standing with HighpassGuards got better.
+[Mon Aug 21 17:40:39 2017] Your faction standing with KithicorResidents got better.
+[Mon Aug 21 17:40:39 2017] Your faction standing with ShralockOrcs could not possibly get any worse.
+[Mon Aug 21 17:40:39 2017] an orc warrior says 'You shall have all the Shralok Orcs on your tail for my death!'
+[Mon Aug 21 17:40:41 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:41 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:41 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:42 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:42 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:42 2017] You begin casting Holy Armor.
+[Mon Aug 21 17:40:42 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:42 2017] You haven't recovered yet...
+[Mon Aug 21 17:40:44 2017] Your spell did not take hold.
+[Mon Aug 21 17:40:48 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:40:55 2017] an orc medic begins to cast a spell.
+[Mon Aug 21 17:41:06 2017] You are low on food and drink.
+[Mon Aug 21 17:41:33 2017] Karva says out of character, 'PGT rotting at gnolls'
+[Mon Aug 21 17:41:38 2017] It will take you about 30 seconds to prepare your camp.
+[Mon Aug 21 17:41:42 2017] It will take about 25 more seconds to prepare your camp.
+[Mon Aug 21 17:41:47 2017] It will take about 20 more seconds to prepare your camp.
+[Mon Aug 21 17:41:52 2017] It will take about 15 more seconds to prepare your camp.
+[Mon Aug 21 17:41:52 2017] You are low on food and drink.
+[Mon Aug 21 17:41:57 2017] It will take about 10 more seconds to prepare your camp.
+[Mon Aug 21 17:42:02 2017] It will take about 5 more seconds to prepare your camp.
+[Mon Aug 21 17:42:08 2017] You cancel the invitation to join Aegaeon's group.
