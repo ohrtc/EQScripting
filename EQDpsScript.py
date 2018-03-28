@@ -1,13 +1,21 @@
-import re, datetime
+import re, datetime, calendar, time
 
 damageWords = ["pierces","slashes","crushes","scores","bashes","backstabs","kicks","bash","slash","bashes"]
+monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 
-def lineToDateEventTuple (line):
-	pattern = re.compile(r"\[(.*)\]\s(.*)")
-	matchobj = pattern.search(line)
-	datestr = matchobj.group(0)
+def lineToDatetimeEventTuple (line):
+	pattern = re.compile(r"\[(.*?)\]\s(.*)")
+	matchObj = pattern.search(line)
+	#take event fragment string as is
+	eventFrag = matchObj.group(2)
+	#parse date string into datetime obj
+	dateToken = matchObj.group(1)
+	dateTokens = dateToken.split()
+	timeVal = dateTokens[3].split(":")
+	dateFrag = datetime.datetime(int(dateTokens[4]),monthAbbrDict[dateTokens[1]],int(dateTokens[2]), int(timeVal[0]), int(timeVal[1]), int(timeVal[2]))
+	dateEventTuple = (dateFrag, eventFrag)
+	return dateEventTuple
 	
-	return matchobj.groups()
 
 
 def getTotalDamage (filename, *names):
@@ -20,8 +28,10 @@ def getTotalDamage (filename, *names):
 		#print(line)
 		#tokens = line.split(r'(:.*:)')#(\[.*\])
 		#regObj = re.compile(r"\]")
-		if not line.strip():
-			tokens = lineToDateEventTuple(line)
+		strippedStr = line.strip()	
+		if strippedStr:
+			#print("got passed stripped str check with: " + strippedStr)
+			tokens = lineToDatetimeEventTuple(line)
 			
 			#for token in tokens:
 			#	print("Token:-" + token)
@@ -33,7 +43,8 @@ def getTotalDamage (filename, *names):
 					secondWord = re.split(r" ",tokens[1])[1]
 					for word in damageWords:
 						if word == secondWord:
-							print("Date: " + tokens[0] +" , Found match: " + tokens[1])
+							print(tokens[0])
+							print("Found match: " + tokens[1])
 							damage = int(re.findall(r'\d+',tokens[1])[0])
 							party[name] += damage
 							break
@@ -41,6 +52,7 @@ def getTotalDamage (filename, *names):
 	print(party)
 	file.close()
 
-#getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
-result = lineToDateEventTuple("[Mon Mar 26 21:35:10 2018] Sylkyn pierces a spiked succulent for 17 points of damage.")
-print(result)
+print("============Running Main Script============")
+getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
+print("\n")
+
