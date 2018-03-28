@@ -2,6 +2,12 @@ import re
 
 damageWords = ["pierces","slashes","crushes","scores","bashes","backstabs","kicks","bash","slash","bashes"]
 
+def lineToDateEventTuple (line):
+	pattern = re.compile(r"\[(.*)\]\s(.*)")
+	matchobj = pattern.search(line)
+	return matchobj.groups()
+
+
 def getTotalDamage (filename, *names):
 	file = open(filename)
 	print("Opened file: " + filename)
@@ -12,7 +18,7 @@ def getTotalDamage (filename, *names):
 		#print(line)
 		#tokens = line.split(r'(:.*:)')#(\[.*\])
 		#regObj = re.compile(r"\]")
-		tokens = re.split(r"\] ",line)
+		tokens = lineToDateEventTuple(line)
 		
 		#for token in tokens:
 		#	print("Token:-" + token)
@@ -31,6 +37,5 @@ def getTotalDamage (filename, *names):
 		
 	print(party)
 	file.close()
-	
 
 getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
