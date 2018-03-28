@@ -1,4 +1,4 @@
-import re
+import re, datetime
 
 damageWords = ["pierces","slashes","crushes","scores","bashes","backstabs","kicks","bash","slash","bashes"]
 
@@ -18,22 +18,23 @@ def getTotalDamage (filename, *names):
 		#print(line)
 		#tokens = line.split(r'(:.*:)')#(\[.*\])
 		#regObj = re.compile(r"\]")
-		tokens = lineToDateEventTuple(line)
-		
-		#for token in tokens:
-		#	print("Token:-" + token)
-				
-		for name in names:
-			#firstWord = tokens[1]
-			#print("First word:" + firstWord)
-			if len(tokens) > 1 and re.match(name,tokens[1]):
-				secondWord = re.split(r" ",tokens[1])[1]
-				for word in damageWords:
-					if word == secondWord:
-						print("Found match: " + tokens[1])
-						damage = int(re.findall(r'\d+',tokens[1])[0])
-						party[name] += damage
-						break
+		if not line.strip)():
+			tokens = lineToDateEventTuple(line)
+			
+			#for token in tokens:
+			#	print("Token:-" + token)
+					
+			for name in names:
+				#firstWord = tokens[1]
+				#print("First word:" + firstWord)
+				if len(tokens) > 1 and re.match(name,tokens[1]):
+					secondWord = re.split(r" ",tokens[1])[1]
+					for word in damageWords:
+						if word == secondWord:
+							print("Date: " + tokens[0] +" , Found match: " + tokens[1])
+							damage = int(re.findall(r'\d+',tokens[1])[0])
+							party[name] += damage
+							break
 		
 	print(party)
 	file.close()
