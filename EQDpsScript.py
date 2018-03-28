@@ -5,6 +5,8 @@ damageWords = ["pierces","slashes","crushes","scores","bashes","backstabs","kick
 def lineToDateEventTuple (line):
 	pattern = re.compile(r"\[(.*)\]\s(.*)")
 	matchobj = pattern.search(line)
+	datestr = matchobj.group(0)
+	
 	return matchobj.groups()
 
 
@@ -18,7 +20,7 @@ def getTotalDamage (filename, *names):
 		#print(line)
 		#tokens = line.split(r'(:.*:)')#(\[.*\])
 		#regObj = re.compile(r"\]")
-		if not line.strip)():
+		if not line.strip():
 			tokens = lineToDateEventTuple(line)
 			
 			#for token in tokens:
@@ -39,4 +41,6 @@ def getTotalDamage (filename, *names):
 	print(party)
 	file.close()
 
-getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
+#getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
+result = lineToDateEventTuple("[Mon Mar 26 21:35:10 2018] Sylkyn pierces a spiked succulent for 17 points of damage.")
+print(result)
