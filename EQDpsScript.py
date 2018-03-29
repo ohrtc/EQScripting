@@ -18,41 +18,53 @@ def lineToDatetimeEventTuple (line):
 	
 
 
-def getTotalDamage (filename, *names):
+def getTotalDamage (filename):
 	file = open(filename)
 	print("Opened file: " + filename)
 	party = {}
-	for name in names:
-		party[name] = 0
+	#for name in names:
+	#	party[name] = 0
 	for line in file:
+		#DEBUG
 		#print(line)
-		#tokens = line.split(r'(:.*:)')#(\[.*\])
-		#regObj = re.compile(r"\]")
 		strippedStr = line.strip()	
 		if strippedStr:
+			#DEBUG 
 			#print("got passed stripped str check with: " + strippedStr)
+			
+			#we have an actual line, tokenize to a date and text
 			tokens = lineToDatetimeEventTuple(line)
 			
+			#DEBUG
 			#for token in tokens:
-			#	print("Token:-" + token)
-					
-			for name in names:
-				#firstWord = tokens[1]
-				#print("First word:" + firstWord)
-				if len(tokens) > 1 and re.match(name,tokens[1]):
-					secondWord = re.split(r" ",tokens[1])[1]
-					for word in damageWords:
-						if word == secondWord:
-							print(tokens[0])
-							print("Found match: " + tokens[1])
-							damage = int(re.findall(r'\d+',tokens[1])[0])
-							party[name] += damage
-							break
-		
+			#	print("Token: " + str(token))
+			#print("\n")
+			
+			
+			eventWords = re.split(r" ",tokens[1])
+			
+			#some output only has one word?
+			if len(eventWords) > 1:
+				#check second word to see if this is a damage event
+				for damageWord in damageWords:
+					if eventWords[1] == damageWord:
+						#DEBUG
+						#print(tokens[0])
+						#print("Found match: " + tokens[1])
+						
+						#search for the integer in the damage event
+						damage = int(re.findall(r'\d+',tokens[1])[0])
+						#Assumption that eventWords[0] is a player name
+						if eventWords[0] in party:
+							party[eventWords[0]] += damage
+						else:
+							party[eventWords[0]] = damage
+						break
+			
 	print(party)
 	file.close()
 
 print("============Running Main Script============")
-getTotalDamage("321.txt", "You", "Ayza", "Sylkyn")
+getTotalDamage("321.txt")
 print("\n")
 
