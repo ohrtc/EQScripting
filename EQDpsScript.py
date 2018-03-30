@@ -2,6 +2,7 @@ import re, datetime, calendar, time
 
 damageWords = ["pierces","slashes","crushes","scores","bashes","backstabs","kicks","bash","slash","bashes"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
+eqSessions = []
 
 def lineToDatetimeEventTuple (line):
 	pattern = re.compile(r"\[(.*?)\]\s(.*)")
@@ -22,8 +23,7 @@ def getTotalDamage (filename):
 	file = open(filename)
 	print("Opened file: " + filename)
 	party = {}
-	#for name in names:
-	#	party[name] = 0
+	currentSession = {"Start Datetime": None, "End Datetime": None}
 	for line in file:
 		#DEBUG
 		#print(line)
@@ -40,11 +40,22 @@ def getTotalDamage (filename):
 			#	print("Token: " + str(token))
 			#print("\n")
 			
-			
+			#parse event
 			eventWords = re.split(r" ",tokens[1])
-			
+
 			#some output only has one word?
 			if len(eventWords) > 1:
+				if(currentSession["Start Datetime"] is None):
+					currentSession["Start Datetime"] = tokens[0]
+					if (tokens[1] == "Welcome to EverQuest!"):
+						continue
+				if (tokens[1] == "Welcome to EverQuest!"):
+					currentSession["Party"] = party
+					eqSessions.append(currentSession)
+					#need to reinstatiate currentSession object? reference or value?
+					currentSession = {"Start Datetime" : tokens[0]}
+					party = {}
+					continue
 				#check second word to see if this is a damage event
 				for damageWord in damageWords:
 					if eventWords[1] == damageWord:
@@ -59,12 +70,20 @@ def getTotalDamage (filename):
 							party[eventWords[0]] += damage
 						else:
 							party[eventWords[0]] = damage
+						currentSession["End Datetime"] = tokens[0]
 						break
-			
-	print(party)
+	#after last line, add party to current session, add current session to eqSession list
+	currentSession["Party"] = party
+	eqSessions.append(currentSession)
+	for item in eqSessions:
+		print(str(item))
+	
+	#for member in party:
+	#	print("Character:   " + member)
+	#	print("Damage Done: " + str(party[member]))
+	#	print("")
 	file.close()
 
 print("============Running Main Script============")
 getTotalDamage("321.txt")
 print("\n")
-
