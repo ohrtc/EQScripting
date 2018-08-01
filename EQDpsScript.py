@@ -1,3 +1,4 @@
+#testComment for pull request
 import re, datetime, calendar, time
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
