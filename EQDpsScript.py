@@ -1,4 +1,4 @@
-import re, datetime, calendar, time
+import re, datetime, calendar, time, json
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
@@ -160,6 +160,8 @@ def getTotalDamage (filename):
 	#after last line, add party to current session, add current session to eqSession list
 	eqSessions.append(currentSession)
 	print(eqSessions)
+	x = json.dumps(eqSessions)
+	print (x)
 	file.close()
 
 print("============Running Main Script============")
