@@ -1,4 +1,3 @@
-#testComment for pull request
 import re, datetime, calendar, time
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
@@ -79,7 +78,7 @@ def getTotalDamage (filename):
 					eqSessions.append(currentSession)
 					
 					#Check any loose encounters (no slain event)
-					print("--DEBUG	Current Enemies (should be blank!)	" + str(tokens[0]) + "\n" + str(currentEncounters))
+					#print("--DEBUG	Current Enemies (should be blank!)	" + str(tokens[0]) + "\n" + str(currentEncounters))
 					currentEncounters = {}
 					
 					#reset current session encounters and current encounters
@@ -145,5 +144,5 @@ def getTotalDamage (filename):
 	file.close()
 
 print("============Running Main Script============")
-getTotalDamage("eqlog_Ohmi_project1999.txt")
+getTotalDamage("samples/sample_large_Ohmi.txt")
 print("\n")
