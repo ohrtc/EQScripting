@@ -4,11 +4,15 @@ damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash"
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 COMBAT_TIMEOUT = 10
 
+eqSessions = [] 				#list of all total sessions between "Welcome to Everquest" logins
+currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
+currentSession = Session()		#current session. Contains list of encounters.
+
 class Line(object):
 	def __init__(self):
 		self.time = None
-		self.text = None #Full text of the line
-		self.words = [] #List of words in the line
+		self.text = None	#full text of the line
+		self.words = [] 	#list of words in the line
 	#ToString
 	#def __repr__(self):
 	#	return str(self.time) + " " + str(self.text)
@@ -18,9 +22,6 @@ class Session(object):
 		self.start = None
 		self.end = None
 		self.encounters = []
-	#ToString
-	#def __repr__(self):
-	#	return "START: " + str(self.start) + "\tEND " + str(self.end) + "\n" + str(self.encounters) + "\n"
 
 class Encounter(object):
 	def __init__(self):
@@ -28,39 +29,29 @@ class Encounter(object):
 		self.end = None
 		self.lastDamageTime = datetime.datetime(1970,1,1,0,0,0)
 		self.enemies = {}
-	#ToString
-	#def __repr__(self):
-	#	return "\n\n" + str(self.start) + " to " + str(self.end) + "\t" + str(self.enemies)
 	
-eqSessions = [] #list of all total sessions between "Welcome to Everquest" logins
-currentEncounter = Encounter() #mobs currently alive
-currentSession = Session()
-
-def lineToDatetimeEventTuple (line):
+def validateAndCreateLine (line):
 	currentLine = Line()
-	line = line.strip()	#strippedStr = line.strip()
-	if line: #Some output has no words. Skip it.
-
+	line = line.strip()
+	if (line):									#Some output has no words. Skip it.
 		pattern = re.compile(r"\[(.*?)\]\s(.*)")
 		matchObj = pattern.search(line)
-		#take event fragment string as is
-		eventFrag = matchObj.group(2)
-		#parse date string into datetime obj
-		dateToken = matchObj.group(1)
+		eventFrag = matchObj.group(2)			#take event fragment string as is
+		dateToken = matchObj.group(1)			#parse date string into datetime obj
 		dateTokens = dateToken.split()
 		timeVal = dateTokens[3].split(":")
 		dateFrag = datetime.datetime(int(dateTokens[4]),monthAbbrDict[dateTokens[1]],int(dateTokens[2]), int(timeVal[0]), int(timeVal[1]), int(timeVal[2]))
 		currentLine.time = dateFrag
 		currentLine.text = eventFrag
 		currentLine.words = re.split(r" ",eventFrag)
-		if len(currentLine.words) > 1: #some output only has one word. Skip it.
+		if (len(currentLine.words) > 1):			#some output only has one word. Skip it.
 			return currentLine
 	return False
 
 def saveAndResetSession(time):
 	global eqSessions, currentEncounter, currentSession
 	#TODO: calculate total damage/DPS for the session.
-	#before reseting the session we should save off the "running encounter"
+	#before reseting the session we should save off the "running" encounter
 	saveAndResetEncounter(time)
 	currentSession.end = time
 	eqSessions.append(currentSession)
@@ -75,6 +66,7 @@ def saveAndResetEncounter(time):
 	if(currentEncounter.start != None):
 		currentEncounter.end = currentEncounter.lastDamageTime
 		currentSession.encounters.append(currentEncounter)
+		
 	currentEncounter = Encounter()
 	currentEncounter.start = time
 
@@ -82,13 +74,14 @@ def getTotalDamage (filename):
 	global eqSessions, currentEncounter, currentSession
 	file = open(filename)
 	for unparsedLine in file:
-		line = lineToDatetimeEventTuple(unparsedLine)
+		line = validateAndCreateLine(unparsedLine)
 		if (line): #line is valid!
 		
-			if(currentSession.start == None): #this must be the first session in the file.
-				currentSession.start = line.time
-			
-			if (line.text == "Welcome to EverQuest!" and currentSession.end != None): #this is not the first session. Append previous.
+			if(currentSession.start == None): 
+				#this must be the first session in the file.
+				currentSession.start = line.time		
+			if (line.text == "Welcome to EverQuest!" and currentSession.end != None): 
+				#this is not the first session. Save currentSession and start a new one.
 				saveAndResetSession(line.time)
 				continue
 			
@@ -100,11 +93,12 @@ def getTotalDamage (filename):
 					if ((line.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT): 
 						saveAndResetEncounter(line.time)
 						
-					currentEncounter.lastDamageTime = line.time
-					damage = int(re.findall(r'\d+',line.text)[0])	#search for the integer in the damage event
-					enemyName = " ".join(line.words[2:line.words.index('for')])
+					currentEncounter.lastDamageTime = line.time					#update running combat time
+					damage = int(re.findall(r'\d+',line.text)[0])				#search for the integer in the damage event
+					enemyName = " ".join(line.words[2:line.words.index('for')]) #search for enemy name in the damage event
 					
 					if enemyName not in currentEncounter.enemies:
+						#this is the first instance of damage to this enemy in the encounter
 						currentEncounter.enemies[enemyName] = {}
 				
 					#Assumption that first word in a damage event is a player name
@@ -113,8 +107,7 @@ def getTotalDamage (filename):
 						currentEncounter.enemies[enemyName][playerName] += damage
 					else:
 						currentEncounter.enemies[enemyName][playerName] = damage
-							
-			
+
 	file.close()
 	#after last line save the "running" session and then output
 	saveAndResetSession(line.time)
@@ -132,4 +125,5 @@ def outputSessions(sessions):
 				formattedEnemy = '{:>30}'.format(enemy)
 				print (formattedEnemy + "\t" + str(player))
 
+#run the main method
 getTotalDamage("C:\P99\Logs\eqlog_Ohmi_project1999.txt")
