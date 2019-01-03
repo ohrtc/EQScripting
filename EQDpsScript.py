@@ -1,13 +1,5 @@
 import re, datetime, calendar, time, json
 
-damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
-monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
-COMBAT_TIMEOUT = 10
-
-eqSessions = []	#list of all total sessions between "Welcome to Everquest" logins
-currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
-currentSession = Session()	#current session. Contains list of encounters.
-
 class Line(object):
 	def __init__(self):
 		self.time = None
@@ -29,7 +21,15 @@ class Encounter(object):
 		self.end = None
 		self.lastDamageTime = datetime.datetime(1970,1,1,0,0,0)
 		self.enemies = {}
+
+damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
+monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
+COMBAT_TIMEOUT = 10
 	
+eqSessions = []	#list of all total sessions between "Welcome to Everquest" logins
+currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
+currentSession = Session()	#current session. Contains list of encounters.
+
 def validateAndCreateLine (line):
 	currentLine = Line()
 	line = line.strip()
@@ -126,4 +126,4 @@ def outputSessions(sessions):
 				print (formattedEnemy + "\t" + str(player))
 
 #run the main method
-getTotalDamage("C:\P99\Logs\eqlog_Ohmi_project1999.txt")
+getTotalDamage("samples/sample_test.txt")
