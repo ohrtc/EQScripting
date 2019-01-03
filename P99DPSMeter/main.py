@@ -1,5 +1,7 @@
-import re, datetime, calendar, time, json
-
+import re, datetime, calendar, time, sys
+"""
+# These are class definitions used throughout the script.
+"""
 class Line(object):
 	def __init__(self):
 		self.time = None
@@ -34,6 +36,9 @@ class DamageTime(object):
 		self.damageDone = initialDamage
 		self.combatTime = 0
 		self.dps = 0
+"""
+# These are global variables used throughout the script.
+"""
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
@@ -43,6 +48,10 @@ eqSessions = []	#list of all total sessions between "Welcome to Everquest" login
 currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
 currentSession = Session()	#current session. Contains list of encounters.
 
+"""
+# These are helper functions used within the script and are not meant to be called from the main()
+# function definition.
+"""
 def validateAndCreateLine (line):
 	currentLine = Line()
 	line = line.strip()
@@ -166,4 +175,24 @@ def outputSessions(sessions):
 				print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
 
 #run the main method
-parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
+#parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
+
+def parseLiveLoop():
+	#temp until we get the live looping parsing implemented
+	print("Liveloop....")
+
+def main():
+	if(len(sys.argv) < 2):
+		print("Running default command: Live Meter")
+		parseLiveLoop()
+	else:
+		option = sys.argv[1]
+		if(option != "static"):
+			parseLiveLoop()
+		else:
+			if(len(sys.argv) < 3):
+				print("Must pass in a file name for static parsing.")
+			else:
+				parseStaticFile(sys.argv[2])
+	
+main()
