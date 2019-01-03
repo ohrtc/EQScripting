@@ -4,15 +4,15 @@ damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash"
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 COMBAT_TIMEOUT = 10
 
-eqSessions = [] 				#list of all total sessions between "Welcome to Everquest" logins
+eqSessions = []	#list of all total sessions between "Welcome to Everquest" logins
 currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
-currentSession = Session()		#current session. Contains list of encounters.
+currentSession = Session()	#current session. Contains list of encounters.
 
 class Line(object):
 	def __init__(self):
 		self.time = None
 		self.text = None	#full text of the line
-		self.words = [] 	#list of words in the line
+		self.words = []		#list of words in the line
 	#ToString
 	#def __repr__(self):
 	#	return str(self.time) + " " + str(self.text)
@@ -33,18 +33,18 @@ class Encounter(object):
 def validateAndCreateLine (line):
 	currentLine = Line()
 	line = line.strip()
-	if (line):									#Some output has no words. Skip it.
+	if (line):	#Some output has no words. Skip it.
 		pattern = re.compile(r"\[(.*?)\]\s(.*)")
 		matchObj = pattern.search(line)
-		eventFrag = matchObj.group(2)			#take event fragment string as is
-		dateToken = matchObj.group(1)			#parse date string into datetime obj
+		eventFrag = matchObj.group(2)	#take event fragment string as is
+		dateToken = matchObj.group(1)	#parse date string into datetime obj
 		dateTokens = dateToken.split()
 		timeVal = dateTokens[3].split(":")
 		dateFrag = datetime.datetime(int(dateTokens[4]),monthAbbrDict[dateTokens[1]],int(dateTokens[2]), int(timeVal[0]), int(timeVal[1]), int(timeVal[2]))
 		currentLine.time = dateFrag
 		currentLine.text = eventFrag
 		currentLine.words = re.split(r" ",eventFrag)
-		if (len(currentLine.words) > 1):			#some output only has one word. Skip it.
+		if (len(currentLine.words) > 1):	#some output only has one word. Skip it.
 			return currentLine
 	return False
 
@@ -93,9 +93,9 @@ def getTotalDamage (filename):
 					if ((line.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT): 
 						saveAndResetEncounter(line.time)
 						
-					currentEncounter.lastDamageTime = line.time					#update running combat time
-					damage = int(re.findall(r'\d+',line.text)[0])				#search for the integer in the damage event
-					enemyName = " ".join(line.words[2:line.words.index('for')]) #search for enemy name in the damage event
+					currentEncounter.lastDamageTime = line.time	#update running combat time
+					damage = int(re.findall(r'\d+',line.text)[0])	#search for the integer in the damage event
+					enemyName = " ".join(line.words[2:line.words.index('for')])	#search for enemy name in the damage event
 					
 					if enemyName not in currentEncounter.enemies:
 						#this is the first instance of damage to this enemy in the encounter
