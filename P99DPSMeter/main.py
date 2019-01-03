@@ -166,4 +166,4 @@ def outputSessions(sessions):
 				print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
 
 #run the main method
-parseStaticFile("samples/sample_large_Ohmi.txt")
+parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
