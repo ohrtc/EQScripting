@@ -14,13 +14,20 @@ class Session(object):
 		self.start = None
 		self.end = None
 		self.encounters = []
+		self.playersInvolved = {} #{key=playerName(str),value=DamageTime(obj)}
 
 class Encounter(object):
 	def __init__(self):
 		self.start = None
 		self.end = None
 		self.lastDamageTime = datetime.datetime(1970,1,1,0,0,0)
-		self.enemies = {}
+		self.enemies = {}	#{key=enemyName(str), value={key=playerName(str),damage(int)}
+		self.playersInvolved = {} #{key=playerName(str), value=DamageTime(obj)}
+
+class DamageTime(object):
+	def __init__(self):
+		self.damageDone = 0
+		self.combatTime = None
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
