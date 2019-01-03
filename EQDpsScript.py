@@ -2,7 +2,6 @@ import re, datetime, calendar, time, json
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
-
 COMBAT_TIMEOUT = 10
 
 class Line(object):
@@ -63,6 +62,7 @@ def saveAndResetSession(time):
 	#TODO: calculate total damage/DPS for the session.
 	#before reseting the session we should save off the "running encounter"
 	saveAndResetEncounter(time)
+	currentSession.end = time
 	eqSessions.append(currentSession)
 	
 	currentSession = Session()
@@ -91,8 +91,6 @@ def getTotalDamage (filename):
 			if (line.text == "Welcome to EverQuest!" and currentSession.end != None): #this is not the first session. Append previous.
 				saveAndResetSession(line.time)
 				continue
-			
-			currentSession.end = line.time
 			
 			#check second word to see if this is a damage event
 			for damageWord in damageWords:
@@ -134,6 +132,4 @@ def outputSessions(sessions):
 				formattedEnemy = '{:>30}'.format(enemy)
 				print (formattedEnemy + "\t" + str(player))
 
-print("============Running Main Script============")
-getTotalDamage("samples/sample_medium_Ohmi.txt")
-print("\n")
+getTotalDamage("C:\P99\Logs\eqlog_Ohmi_project1999.txt")
