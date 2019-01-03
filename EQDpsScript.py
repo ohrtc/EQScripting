@@ -27,12 +27,18 @@ class Encounter(object):
 class DamageTime(object):
 	def __init__(self):
 		self.damageDone = 0
-		self.combatTime = None
+		self.combatTime = 0
+		self.dps = 0
+
+	def __init__(self, initialDamage):
+		self.damageDone = initialDamage
+		self.combatTime = 0
+		self.dps = 0
 
 damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 COMBAT_TIMEOUT = 10
-	
+
 eqSessions = []	#list of all total sessions between "Welcome to Everquest" logins
 currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
 currentSession = Session()	#current session. Contains list of encounters.
@@ -55,59 +61,68 @@ def validateAndCreateLine (line):
 			return currentLine
 	return False
 
-def saveAndResetSession(time):
+def saveAndResetSession(nextSessionStartTime):
 	global eqSessions, currentEncounter, currentSession
-	#TODO: calculate total damage/DPS for the session.
 	#before reseting the session we should save off the "running" encounter
-	saveAndResetEncounter(time)
-	currentSession.end = time
-	eqSessions.append(currentSession)
-	
-	currentSession = Session()
-	currentSession.start = time
-	currentEncounter = Encounter()
-	
-def saveAndResetEncounter(time):
-	global eqSessions, currentEncounter, currentSession
-	#TODO calculate totaldamage/DPS for the encounter.
-	if(currentEncounter.start != None):
-		currentEncounter.end = currentEncounter.lastDamageTime
-		currentSession.encounters.append(currentEncounter)
-		
-	currentEncounter = Encounter()
-	currentEncounter.start = time
+	saveAndResetEncounter(nextSessionStartTime)
+	for playerName in currentSession.playersInvolved:
+		player = currentSession.playersInvolved[playerName]
+		if player.combatTime == 0:
+			del player
+			#currentSessions.playersInvolved[playerName]
+		else:
+			player.dps = player.damageDone/player.combatTime
 
-def getTotalDamage (filename):
+	eqSessions.append(currentSession)
+	currentSession = Session()
+	currentSession.start = nextSessionStartTime
+
+def saveAndResetEncounter(nextEncounterStartTime):
+	global eqSessions, currentEncounter, currentSession
+	if(currentEncounter.start != None):
+		inCombatTime = (currentEncounter.lastDamageTime - currentEncounter.start).total_seconds()
+		if(inCombatTime != 0):
+			for playerName in currentEncounter.playersInvolved:
+				player = currentEncounter.playersInvolved[playerName]
+				player.combatTime = inCombatTime
+				player.dps = player.damageDone/inCombatTime
+				currentSession.playersInvolved[playerName].combatTime += inCombatTime
+			currentEncounter.end = currentEncounter.lastDamageTime
+			currentSession.encounters.append(currentEncounter)
+	currentEncounter = Encounter()
+	currentEncounter.start = nextEncounterStartTime
+
+def parseStaticFile (filename):
 	global eqSessions, currentEncounter, currentSession
 	file = open(filename)
 	for unparsedLine in file:
 		line = validateAndCreateLine(unparsedLine)
 		if (line): #line is valid!
-		
-			if(currentSession.start == None): 
+
+			if(currentSession.start == None):
 				#this must be the first session in the file.
-				currentSession.start = line.time		
-			if (line.text == "Welcome to EverQuest!" and currentSession.end != None): 
+				currentSession.start = line.time
+			if (line.text == "Welcome to EverQuest!" and currentSession.end != None):
 				#this is not the first session. Save currentSession and start a new one.
 				saveAndResetSession(line.time)
 				continue
-			
+			currentSession.end = line.time
 			#check second word to see if this is a damage event
 			for damageWord in damageWords:
 				if line.words[1] == damageWord:
-					
+
 					#if nothing had been damaged the last COMBAT_TIMEOUT seconds this is a new encounter.
-					if ((line.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT): 
+					if ((line.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT):
 						saveAndResetEncounter(line.time)
-						
+
 					currentEncounter.lastDamageTime = line.time	#update running combat time
 					damage = int(re.findall(r'\d+',line.text)[0])	#search for the integer in the damage event
 					enemyName = " ".join(line.words[2:line.words.index('for')])	#search for enemy name in the damage event
-					
+
 					if enemyName not in currentEncounter.enemies:
 						#this is the first instance of damage to this enemy in the encounter
 						currentEncounter.enemies[enemyName] = {}
-				
+
 					#Assumption that first word in a damage event is a player name
 					playerName = line.words[0]
 					if playerName in currentEncounter.enemies[enemyName]:
@@ -115,22 +130,40 @@ def getTotalDamage (filename):
 					else:
 						currentEncounter.enemies[enemyName][playerName] = damage
 
+					if playerName in currentEncounter.playersInvolved:
+						currentEncounter.playersInvolved[playerName].damageDone += damage
+					else:
+						currentEncounter.playersInvolved[playerName] = DamageTime(damage)
+
+					if playerName in currentSession.playersInvolved:
+						currentSession.playersInvolved[playerName].damageDone += damage
+					else:
+						currentSession.playersInvolved[playerName] = DamageTime(damage)
+
+
 	file.close()
 	#after last line save the "running" session and then output
 	saveAndResetSession(line.time)
 	outputSessions(eqSessions)
 
-	
+
 def outputSessions(sessions):
 	for session in sessions:
 		print ("\n------------------------------------------------------")
 		print ("START " + str(session.start) + "  to  END " + str(session.end))
+		for playerName in session.playersInvolved:
+			player = session.playersInvolved[playerName]
+			formattedPlayer = '{:>30}'.format(playerName)
+			print (formattedPlayer + ": (TOTAL DAMAGE: " + str(player.damageDone) + "\t TOTAL TIME: " + str(player.combatTime) + " \t DPS: " + str(player.dps))
 		print ("------------------------------------------------------")
 		for encounter in session.encounters:
-			print (str(encounter.start) + " to " + str(encounter.end))
+			print ("\n" + str(encounter.start) + " to " + str(encounter.end))
 			for enemy,player in encounter.enemies.items():
 				formattedEnemy = '{:>30}'.format(enemy)
 				print (formattedEnemy + "\t" + str(player))
+			for player in encounter.playersInvolved:
+				formattedPlayer = '{:>30}'.format(player)
+				print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
 
 #run the main method
-getTotalDamage("samples/sample_test.txt")
+parseStaticFile("samples/sample_large_Ohmi.txt")
