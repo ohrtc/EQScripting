@@ -1,4 +1,4 @@
-import re, datetime, calendar, time, sys
+import re, datetime, calendar, time, sys, sched, time, threading
 """
 # These are class definitions used throughout the script.
 """
@@ -47,6 +47,9 @@ COMBAT_TIMEOUT = 10
 eqSessions = []	#list of all total sessions between "Welcome to Everquest" logins
 currentEncounter = Encounter()	#current combat encounter. Contains list of enemies and damage done.
 currentSession = Session()	#current session. Contains list of encounters.
+
+s = sched.scheduler(time.time, time.sleep) #instance of a scheduler to manipulate later
+lastIndex = 0
 
 """
 # These are helper functions used within the script and are not meant to be called from the main()
@@ -107,7 +110,6 @@ def parseStaticFile (filename):
 	for unparsedLine in file:
 		line = validateAndCreateLine(unparsedLine)
 		if (line): #line is valid!
-
 			if(currentSession.start == None):
 				#this must be the first session in the file.
 				currentSession.start = line.time
@@ -174,25 +176,40 @@ def outputSessions(sessions):
 				formattedPlayer = '{:>30}'.format(player)
 				print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
 
-#run the main method
+
+def readUpdatingFile():
+	global lastIndex
+	print("checking for updates passed line " + str(lastIndex))
+	file = open("sample_input_data/sample_large_Ohmi.txt")
+	for i, line in enumerate(file):
+		if (i > lastIndex):
+			##TODO - replace simple print statement with parsing logic.
+			print("NEW " + line)
+			lastIndex = i
+
+	print("closing file.")
+	file.close()
+	s.enter(3,1,readUpdatingFile,())
+
 #parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
 
-def parseLiveLoop():
+def parseLiveUpdatingFile():
 	#temp until we get the live looping parsing implemented
-	print("Liveloop....")
-
+	s.enter(3,1,readUpdatingFile,())
+	s.run()
+#main method in which arguments are parsed. the first argument is always the name of the file ran (in this case, main.py)
 def main():
 	if(len(sys.argv) < 2):
-		print("Running default command: Live Meter")
-		parseLiveLoop()
+		print("Running default command: Live Meter, default sample file.")
+		parseLiveUpdatingFile()
 	else:
 		option = sys.argv[1]
 		if(option != "static"):
-			parseLiveLoop()
+			parseLiveUpdatingFile()
 		else:
 			if(len(sys.argv) < 3):
 				print("Must pass in a file name for static parsing.")
 			else:
 				parseStaticFile(sys.argv[2])
-	
+#run the main method
 main()
