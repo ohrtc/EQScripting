@@ -55,6 +55,24 @@ lastIndex = 0
 # These are helper functions used within the script and are not meant to be called from the main()
 # function definition.
 """
+def printEncounter(encounter):
+	print ("\n" + str(encounter.start) + " to " + str(encounter.end))
+	for enemy,player in encounter.enemies.items():
+		formattedEnemy = '{:>30}'.format(enemy)
+		print (formattedEnemy + "\t" + str(player))
+	for player in encounter.playersInvolved:
+		formattedPlayer = '{:>30}'.format(player)
+		print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
+
+def printSession(session):
+	print ("\n------------------------------------------------------")
+	print ("START " + str(session.start) + "  to  END " + str(session.end))
+	for playerName in session.playersInvolved:
+		player = session.playersInvolved[playerName]
+		formattedPlayer = '{:>30}'.format(playerName)
+		print (formattedPlayer + ": (TOTAL DAMAGE: " + str(player.damageDone) + "\t TOTAL TIME: " + str(player.combatTime) + " \t DPS: " + str(player.dps))
+	print ("------------------------------------------------------")
+
 def validateAndCreateLine (line):
 	currentLine = Line()
 	line = line.strip()
@@ -74,9 +92,10 @@ def validateAndCreateLine (line):
 	return False
 
 def saveAndResetSession(nextSessionStartTime):
+	#print("Saving current session and resetting currentSession variable")
 	global eqSessions, currentEncounter, currentSession
 	#before reseting the session we should save off the "running" encounter
-	saveAndResetEncounter(nextSessionStartTime)
+	saveAndResetEncounter()
 	for playerName in currentSession.playersInvolved:
 		player = currentSession.playersInvolved[playerName]
 		if player.combatTime == 0:
@@ -89,10 +108,12 @@ def saveAndResetSession(nextSessionStartTime):
 	currentSession = Session()
 	currentSession.start = nextSessionStartTime
 
-def saveAndResetEncounter(nextEncounterStartTime):
+def saveAndResetEncounter():
+	#print("Saving current encounter and resetting currentEncounter variable")
 	global eqSessions, currentEncounter, currentSession
 	if(currentEncounter.start != None):
 		inCombatTime = (currentEncounter.lastDamageTime - currentEncounter.start).total_seconds()
+		print(inCombatTime)
 		if(inCombatTime != 0):
 			for playerName in currentEncounter.playersInvolved:
 				player = currentEncounter.playersInvolved[playerName]
@@ -101,103 +122,101 @@ def saveAndResetEncounter(nextEncounterStartTime):
 				currentSession.playersInvolved[playerName].combatTime += inCombatTime
 			currentEncounter.end = currentEncounter.lastDamageTime
 			currentSession.encounters.append(currentEncounter)
+			printEncounter(currentEncounter)
 	currentEncounter = Encounter()
-	currentEncounter.start = nextEncounterStartTime
 
-def processLine(line):
-	#check second word to see if this is a damage event
-	for damageWord in damageWords:
-		if line.words[1] == damageWord:
+def processDamageLine(line):
+	#if nothing had been damaged the last COMBAT_TIMEOUT seconds this is a new encounter.
+	if(currentEncounter.start == None):
+		currentEncounter.start = line.time
+	currentEncounter.lastDamageTime = line.time	#update running combat time
+	damage = int(re.findall(r'\d+',line.text)[0])	#search for the integer in the damage event
+	enemyName = " ".join(line.words[2:line.words.index('for')])	#search for enemy name in the damage event
 
-			#if nothing had been damaged the last COMBAT_TIMEOUT seconds this is a new encounter.
-			if ((line.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT):
-				saveAndResetEncounter(line.time)
+	if enemyName not in currentEncounter.enemies:
+		#this is the first instance of damage to this enemy in the encounter
+		currentEncounter.enemies[enemyName] = {}
 
-			currentEncounter.lastDamageTime = line.time	#update running combat time
-			damage = int(re.findall(r'\d+',line.text)[0])	#search for the integer in the damage event
-			enemyName = " ".join(line.words[2:line.words.index('for')])	#search for enemy name in the damage event
+	#Assumption that first word in a damage event is a player name
+	playerName = line.words[0]
+	if playerName in currentEncounter.enemies[enemyName]:
+		currentEncounter.enemies[enemyName][playerName] += damage
+	else:
+		currentEncounter.enemies[enemyName][playerName] = damage
 
-			if enemyName not in currentEncounter.enemies:
-				#this is the first instance of damage to this enemy in the encounter
-				currentEncounter.enemies[enemyName] = {}
+	if playerName in currentEncounter.playersInvolved:
+		currentEncounter.playersInvolved[playerName].damageDone += damage
+	else:
+		currentEncounter.playersInvolved[playerName] = DamageTime(damage)
 
-			#Assumption that first word in a damage event is a player name
-			playerName = line.words[0]
-			if playerName in currentEncounter.enemies[enemyName]:
-				currentEncounter.enemies[enemyName][playerName] += damage
-			else:
-				currentEncounter.enemies[enemyName][playerName] = damage
+	if playerName in currentSession.playersInvolved:
+		currentSession.playersInvolved[playerName].damageDone += damage
+	else:
+		currentSession.playersInvolved[playerName] = DamageTime(damage)
 
-			if playerName in currentEncounter.playersInvolved:
-				currentEncounter.playersInvolved[playerName].damageDone += damage
-			else:
-				currentEncounter.playersInvolved[playerName] = DamageTime(damage)
-
-			if playerName in currentSession.playersInvolved:
-				currentSession.playersInvolved[playerName].damageDone += damage
-			else:
-				currentSession.playersInvolved[playerName] = DamageTime(damage)
-
-def parseStaticFile (filename):
-	global eqSessions, currentEncounter, currentSession
-	file = open(filename)
-	for line in file:
-		lineObj = validateAndCreateLine(line)
-		if (lineObj): #line is valid!
-			if(currentSession.start == None):
-				#this must be the first session in the file.
-				currentSession.start = lineObj.time
-			if (lineObj.text == "Welcome to EverQuest!" and currentSession.end != None):
-				#this is not the first session. Save currentSession and start a new one.
-				saveAndResetSession(lineObj.time)
-				continue
-			currentSession.end = lineObj.time
-			processLine(lineObj)
-
-	file.close()
-	#after last line save the "running" session and then output
-	saveAndResetSession(lineObj.time)
-	outputSessions(eqSessions)
-
-
-def outputSessions(sessions):
-	for session in sessions:
-		print ("\n------------------------------------------------------")
-		print ("START " + str(session.start) + "  to  END " + str(session.end))
-		for playerName in session.playersInvolved:
-			player = session.playersInvolved[playerName]
-			formattedPlayer = '{:>30}'.format(playerName)
-			print (formattedPlayer + ": (TOTAL DAMAGE: " + str(player.damageDone) + "\t TOTAL TIME: " + str(player.combatTime) + " \t DPS: " + str(player.dps))
-		print ("------------------------------------------------------")
-		for encounter in session.encounters:
-			print ("\n" + str(encounter.start) + " to " + str(encounter.end))
-			for enemy,player in encounter.enemies.items():
-				formattedEnemy = '{:>30}'.format(enemy)
-				print (formattedEnemy + "\t" + str(player))
-			for player in encounter.playersInvolved:
-				formattedPlayer = '{:>30}'.format(player)
-				print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
-
+def processLine(lineObj):
+	global damageWords, eqSessions, currentEncounter, currentSession
+	if (lineObj): #line is valid!
+		if(currentSession.start == None):
+			#this must be the first session in the file.
+			currentSession.start = lineObj.time
+		if (lineObj.text == "Welcome to EverQuest!" and currentSession.end != None):
+			#this is not the first session. Save currentSession and start a new one.
+			saveAndResetSession(lineObj.time)
+			#continue
+		currentSession.end = lineObj.time
+		#Check, if there is a currentEncounter running, and it has been COMBAT_TIMEOUT seconds since last damage, then we should save it and reset the variable
+		if(currentEncounter.start != None and currentEncounter.end == None):
+			if ((lineObj.time - currentEncounter.lastDamageTime).total_seconds() > COMBAT_TIMEOUT):
+				saveAndResetEncounter()
+		for damageWord in damageWords:
+			#check second word to see if this is a damage event
+			if lineObj.words[1] == damageWord:
+				processDamageLine(lineObj)
 
 def readUpdatingFile():
 	global lastIndex
 	print("checking for updates passed line " + str(lastIndex))
-	file = open("sample_input_data/sample_large_Ohmi.txt")
+	file = open("sample_input_data/sample_test.txt")
 	for i, line in enumerate(file):
 		if (i > lastIndex):
 			##TODO - replace simple print statement with parsing logic.
 			#print("NEW " + line)
+			lineObj = validateAndCreateLine(line)
+			processLine(lineObj)
 			lastIndex = i
 
 	print("closing file.")
 	file.close()
-	s.enter(3,1,readUpdatingFile,())
+	s.enter(10,1,readUpdatingFile,())
+
+
+#def parseStaticFile (filename):
+#	global currentSession
+#	file = open(filename)
+#	for line in file:
+#		lineObj = validateAndCreateLine(line)
+#		processLine(lineObj)
+#
+#	file.close()
+#	#after last line save the "running" session and then output
+#	saveAndResetSession(lineObj.time)
+#	outputSessions(eqSessions)
+
+
+#def outputSessions(sessions):
+#	for session in sessions:
+#		printSession(session)
+#		for encounter in session.encounters:
+#			printEncounter(encounter)
+
+
 
 #parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
 
 def parseLiveUpdatingFile():
 	#temp until we get the live looping parsing implemented
-	s.enter(3,1,readUpdatingFile,())
+	s.enter(10,1,readUpdatingFile,())
 	s.run()
 #main method in which arguments are parsed. the first argument is always the name of the file ran (in this case, main.py)
 def main():
