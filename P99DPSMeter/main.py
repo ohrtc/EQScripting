@@ -40,7 +40,7 @@ class DamageTime(object):
 # These are global variables used throughout the script.
 """
 
-damageWords = ["pierces","slashes","crushes","bashes","backstabs","kicks","bash","slash","crush"]
+damageWords = ["pierces","slashes","punches","crushes","bashes","backstabs","kicks","pierce","slash","punch","crush","bash","backstab","kick"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 COMBAT_TIMEOUT = 10
 
@@ -113,7 +113,7 @@ def saveAndResetEncounter():
 	global eqSessions, currentEncounter, currentSession
 	if(currentEncounter.start != None):
 		inCombatTime = (currentEncounter.lastDamageTime - currentEncounter.start).total_seconds()
-		print(inCombatTime)
+		#print(inCombatTime)
 		if(inCombatTime != 0):
 			for playerName in currentEncounter.playersInvolved:
 				player = currentEncounter.playersInvolved[playerName]
@@ -176,8 +176,8 @@ def processLine(lineObj):
 
 def readUpdatingFile():
 	global lastIndex
-	print("checking for updates passed line " + str(lastIndex))
-	file = open("sample_input_data/sample_test.txt")
+	#print("checking for updates passed line " + str(lastIndex))
+	file = open("eqlog_Ohmi_project1999.txt")
 	for i, line in enumerate(file):
 		if (i > lastIndex):
 			##TODO - replace simple print statement with parsing logic.
@@ -186,7 +186,7 @@ def readUpdatingFile():
 			processLine(lineObj)
 			lastIndex = i
 
-	print("closing file.")
+	#print("closing file.")
 	file.close()
 	s.enter(10,1,readUpdatingFile,())
 
@@ -212,7 +212,7 @@ def readUpdatingFile():
 
 
 
-#parseStaticFile("sample_input_data/sample_large_Ohmi.txt")
+#parseStaticFile("eqlog_Ohmi_project1999.txt")
 
 def parseLiveUpdatingFile():
 	#temp until we get the live looping parsing implemented
