@@ -1,4 +1,5 @@
 import re, datetime, calendar, time, sys, sched, time, threading
+
 """
 # These are class definitions used throughout the script.
 """
@@ -36,11 +37,12 @@ class DamageTime(object):
 		self.damageDone = initialDamage
 		self.combatTime = 0
 		self.dps = 0
+		
 """
 # These are global variables used throughout the script.
 """
-
-damageWords = ["pierces","slashes","punches","crushes","bashes","backstabs","kicks","pierce","slash","punch","crush","bash","backstab","kick"]
+damageWords = ["pierces","slashes","punches","crushes","bashes","backstabs","kicks","slices",
+				"pierce",  "slash",  "punch",  "crush",  "bash", "backstab","kick",  "slice"]
 monthAbbrDict = {"Jan":1,"Feb":2,"Mar":3,"Apr":4,"May":5,"Jun":6,"Jul":7,"Aug":8,"Sep":9,"Oct":10,"Nov":11,"Dec":12}
 COMBAT_TIMEOUT = 10
 
