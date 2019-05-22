@@ -54,6 +54,10 @@ currentSession = Session()	#current session. Contains list of encounters.
 s = sched.scheduler(time.time, time.sleep) #instance of a scheduler to manipulate later
 lastIndex = 0
 
+db = None
+
+defaultFile = "./sample_input_data/sample_test.txt"
+
 """
 # These are helper functions used within the script and are not meant to be called from the main()
 # function definition.
@@ -74,6 +78,16 @@ def firebase_setup():
 #db.child("sessions").push(data)
 
 
+def pushEncounter(encounter, sessionKey):
+    global db
+    
+	#print ("\n" + str(encounter.start) + " to " + str(encounter.end))
+	#for enemy,player in encounter.enemies.items():
+	#	formattedEnemy = '{:>30}'.format(enemy)
+	#	print (formattedEnemy + "\t" + str(player))
+	#for player in encounter.playersInvolved:
+	#	formattedPlayer = '{:>30}'.format(player)
+	#	print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
 
 def printEncounter(encounter):
 	print ("\n" + str(encounter.start) + " to " + str(encounter.end))
@@ -83,6 +97,16 @@ def printEncounter(encounter):
 	for player in encounter.playersInvolved:
 		formattedPlayer = '{:>30}'.format(player)
 		print (formattedPlayer + ": " + str(encounter.playersInvolved[player].dps))
+
+def pushSession(session):
+    global db
+	#print ("\n------------------------------------------------------")
+	#print ("START " + str(session.start) + "  to  END " + str(session.end))
+	#for playerName in session.playersInvolved:
+	#	player = session.playersInvolved[playerName]
+	#	formattedPlayer = '{:>30}'.format(playerName)
+	#	print (formattedPlayer + ": (TOTAL DAMAGE: " + str(player.damageDone) + "\t TOTAL TIME: " + str(player.combatTime) + " \t DPS: " + str(player.dps))
+	#print ("------------------------------------------------------")
 
 def printSession(session):
 	print ("\n------------------------------------------------------")
@@ -143,6 +167,7 @@ def saveAndResetEncounter():
 			currentEncounter.end = currentEncounter.lastDamageTime
 			currentSession.encounters.append(currentEncounter)
 			printEncounter(currentEncounter)
+            pushEncounter(currentEncounter, str(currentEncounter.start))
 	currentEncounter = Encounter()
 
 def processDamageLine(line):
@@ -194,28 +219,7 @@ def processLine(lineObj):
 			if lineObj.words[1] == damageWord:
 				processDamageLine(lineObj)
 
-def readExampleUpdatingFile():
-	global lastIndex
-	#print("checking for updates passed line " + str(lastIndex))
-	file = open("./sample_input_data/sample_test.txt")
-	for i, line in enumerate(file):
-		if (i > lastIndex):
-			##TODO - replace simple print statement with parsing logic.
-			#print("NEW " + line)
-			lineObj = validateAndCreateLine(line)
-			processLine(lineObj)
-			lastIndex = i
-
-	#print("closing file.")
-	file.close()
-	s.enter(10,1,readExampleUpdatingFile,())
-
-def parseExampleFile():
-	#temp until we get the live looping parsing implemented
-	s.enter(10,1,readExampleUpdatingFile,())
-	s.run()
-
-def readUpdatingFile(filename):
+def readFile(filename):
 	global lastIndex
 	#print("checking for updates passed line " + str(lastIndex))
 	file = open(filename)
@@ -228,22 +232,26 @@ def readUpdatingFile(filename):
 			lastIndex = i
 	#print("closing file.")
 	file.close()
-	s.enter(10,1,readUpdatingFile,kwargs={"filename": filename})
+	s.enter(10,1,readFile,kwargs={"filename": filename})
 
-def parseLiveUpdatingFile(filename):
+def parseFile(filename):
 	#temp until we get the live looping parsing implemented
-	s.enter(10,1,readUpdatingFile,kwargs={"filename": filename})
+	s.enter(10,1,readFile,kwargs={"filename": filename})
 	s.run()
 
 #main method in which arguments are parsed. the first argument is always the name of the file ran (in this case, main.py)
 def main():
+    firebase = firebase_setup()
+    global db
+    db = firebase.database()
+    print("Firebase db is setup.")
     if(len(sys.argv) < 2):
         print("Running against default sample file.")
-        parseExampleFile()
+        parseFile(defaultFile)
     else:
         filename = sys.argv[1]
         print("Running against file: " + filename)
-        parseLiveUpdatingFile(filename)
+        parseFile(filename)
 
 #run the main method
 main()
